@@ -1,4 +1,4 @@
-import { Dispatch, useCallback, useMemo, useState } from "react";
+import { startTransition, useCallback, useMemo, useState } from "react";
 import { User } from "../domain/User";
 import fetchUsers from "../services/user";
 
@@ -8,8 +8,8 @@ type UseUsersReturn = [
     error?: Error;
     sortField: string;
     getUsers: () => void;
-    filerUsersByName: Dispatch<React.SetStateAction<string>>;
-    sortUserByName: Dispatch<React.SetStateAction<string>>;
+    filerUsersByName: (value: string) => void;
+    sortUserByName: (field: string) => void;
   }
 ];
 
@@ -51,14 +51,26 @@ export default function useUsers(): UseUsersReturn {
       .sort(createFieldComparator(sortField));
   }, [users, nameQuery, sortField]);
 
+  const filerUsersByName = useCallback((value: string) => {
+    startTransition(() => {
+      setNameQuery(value);
+    });
+  }, []);
+
+  const sortUserByName = useCallback((field: string) => {
+    startTransition(() => {
+      setSortField(field);
+    });
+  }, []);
+
   return [
     filteredUsers,
     {
       error,
       sortField,
       getUsers,
-      filerUsersByName: setNameQuery,
-      sortUserByName: setSortField,
+      filerUsersByName,
+      sortUserByName,
     },
   ];
 }

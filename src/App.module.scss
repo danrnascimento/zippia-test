@@ -1,0 +1,41 @@
+.container {
+  padding: 12px;
+  box-sizing: border-box;
+  background-color: #243642;
+  width: 100%;
+  height: 100%;
+
+  & > * {
+    font-family: "Courier New", Courier, monospace;
+  }
+}
+
+.title {
+  font-size: 42px;
+  color: #e2f1e7;
+  text-transform: uppercase;
+  font-family: "Courier New", Courier, monospace;
+  width: 100%;
+  text-align: center;
+  margin: 24px 0 64px 0;
+}
+
+.fetchButton {
+  font-size: 18px;
+  color: #e2f1e7;
+  border: unset;
+  border-radius: 16px;
+  background-color: #629584;
+  padding: 4px 24px;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #387478;
+  }
+}
+
+.toolbar {
+  display: flex;
+  gap: 32px;
+}

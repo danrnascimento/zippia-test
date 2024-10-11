@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #e2f1e7;
+  font-size: 18px;
+  width: 100%;
+
+  input {
+    padding: 8px 12px;
+    width: 100%;
+    flex: 1;
+    border-radius: 16px;
+
+    &:focus {
+      outline: none;
+      background-color: #e2f1e7;
+      color: #243642;
+      font-weight: bold;
+    }
+  }
+}
