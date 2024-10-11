@@ -2,7 +2,7 @@ import UsersTable from "./components/UsersTable";
 import useUsers from "./hooks/users";
 
 function App() {
-  const [users, { getUsers, filerUserByName }] = useUsers();
+  const [users, { getUsers, filerUserByName, error }] = useUsers();
 
   return (
     <div>
@@ -19,7 +19,7 @@ function App() {
             />
           </label>
         </form>
-        <UsersTable users={users} />
+        {!error ? <UsersTable users={users} /> : "Failed"}
       </div>
     </div>
   );
