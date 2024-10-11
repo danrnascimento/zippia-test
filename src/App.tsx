@@ -2,7 +2,10 @@ import UsersTable from "./components/UsersTable";
 import useUsers from "./hooks/users";
 
 function App() {
-  const [users, { getUsers, filerUserByName, error }] = useUsers();
+  const [
+    users,
+    { getUsers, filerUsersByName, sortUserByName, error, sortField },
+  ] = useUsers();
 
   return (
     <div>
@@ -15,11 +18,24 @@ function App() {
             <input
               type="search"
               name="name"
-              onChange={(event) => filerUserByName(event.target.value)}
+              onChange={(event) => filerUsersByName(event.target.value)}
             />
           </label>
         </form>
-        {!error ? <UsersTable users={users} /> : "Failed"}
+
+        {!error ? (
+          users ? (
+            <UsersTable
+              users={users}
+              onSortClick={sortUserByName}
+              currentSort={sortField}
+            />
+          ) : (
+            "not fetched"
+          )
+        ) : (
+          "Failed"
+        )}
       </div>
     </div>
   );

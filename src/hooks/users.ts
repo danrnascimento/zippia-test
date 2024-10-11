@@ -3,18 +3,38 @@ import { User } from "../domain/User";
 import fetchUsers from "../services/user";
 
 type UseUsersReturn = [
-  User[],
+  User[] | undefined,
   {
     error?: Error;
+    sortField: string;
     getUsers: () => void;
-    filerUserByName: Dispatch<React.SetStateAction<string>>;
+    filerUsersByName: Dispatch<React.SetStateAction<string>>;
+    sortUserByName: Dispatch<React.SetStateAction<string>>;
   }
 ];
 
+const createFieldComparator =
+  (sortField: string) => (userA: User, userB: User) => {
+    if (!sortField) return 1;
+
+    if (sortField === "city") {
+      return userA.address.city < userB.address.city ? -1 : 1;
+    }
+
+    if (sortField === "company") {
+      return userA.company.name < userB.company.name ? -1 : 1;
+    }
+
+    return userA[sortField as keyof User] < userB[sortField as keyof User]
+      ? -1
+      : 1;
+  };
+
 export default function useUsers(): UseUsersReturn {
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<User[] | undefined>(undefined);
   const [error, setError] = useState<Error | undefined>(undefined);
   const [nameQuery, setNameQuery] = useState<string>("");
+  const [sortField, setSortField] = useState<string>("");
 
   const getUsers = useCallback(async () => {
     const [result, fetchError] = await fetchUsers();
@@ -23,12 +43,22 @@ export default function useUsers(): UseUsersReturn {
   }, []);
 
   const filteredUsers = useMemo(() => {
-    return nameQuery
-      ? users.filter((user) =>
-          user.name.toLowerCase().includes(nameQuery.toLowerCase())
-        )
-      : users;
-  }, [users, nameQuery]);
+    return users
+      ?.filter((user) => {
+        if (!nameQuery) return true;
+        return user.name.toLowerCase().includes(nameQuery.toLowerCase());
+      })
+      .sort(createFieldComparator(sortField));
+  }, [users, nameQuery, sortField]);
 
-  return [filteredUsers, { getUsers, filerUserByName: setNameQuery, error }];
+  return [
+    filteredUsers,
+    {
+      error,
+      sortField,
+      getUsers,
+      filerUsersByName: setNameQuery,
+      sortUserByName: setSortField,
+    },
+  ];
 }
