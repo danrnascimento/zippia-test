@@ -20,7 +20,9 @@ export default function useUsers(): UseUsersReturn {
 
   const filteredUsers = useMemo(() => {
     return nameQuery
-      ? users.filter((user) => user.name.includes(nameQuery))
+      ? users.filter((user) =>
+          user.name.toLowerCase().includes(nameQuery.toLowerCase())
+        )
       : users;
   }, [users, nameQuery]);
 
