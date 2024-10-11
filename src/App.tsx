@@ -2,10 +2,8 @@ import UsersTable from "./components/UsersTable";
 import useUsers from "./hooks/users";
 
 function App() {
-  const [
-    users,
-    { getUsers, filerUsersByName, sortUserByName, error, sortField },
-  ] = useUsers();
+  const [users, { getUsers, filerUsersByName, sortUserByName, sortField }] =
+    useUsers();
 
   return (
     <div>
@@ -22,19 +20,14 @@ function App() {
             />
           </label>
         </form>
-
-        {!error ? (
-          users ? (
-            <UsersTable
-              users={users}
-              onSortClick={sortUserByName}
-              currentSort={sortField}
-            />
-          ) : (
-            "not fetched"
-          )
+        {users ? (
+          <UsersTable
+            users={users}
+            onSortClick={sortUserByName}
+            currentSort={sortField}
+          />
         ) : (
-          "Failed"
+          "not fetched"
         )}
       </div>
     </div>
