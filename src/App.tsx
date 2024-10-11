@@ -1,3 +1,4 @@
+import UsersTable from "./components/UsersTable";
 import useUsers from "./hooks/users";
 
 function App() {
@@ -18,11 +19,7 @@ function App() {
             />
           </label>
         </form>
-        <ul>
-          {users.map((user) => (
-            <li key={user.id}>{user.name}</li>
-          ))}
-        </ul>
+        <UsersTable users={users} />
       </div>
     </div>
   );
