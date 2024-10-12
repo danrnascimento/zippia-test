@@ -1,0 +1,21 @@
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+  color: #e2f1e7;
+  align-items: center;
+
+  button {
+    padding: 4px 8px;
+    color: #e2f1e7;
+    border: unset;
+    border-radius: 16px;
+    background-color: #629584;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: inherit;
+      opacity: 0.3;
+    }
+  }
+}

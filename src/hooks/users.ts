@@ -7,7 +7,8 @@ type UseUsersReturn = [
   {
     error?: Error;
     sortField: string;
-    getUsers: () => void;
+    pagination: { page: number; hasNextPage?: boolean; hasPrevPage?: boolean };
+    getUsers: (page?: number, limit?: number) => void;
     filerUsersByName: (value: string) => void;
     sortUserByName: (field: string) => void;
   }
@@ -30,16 +31,31 @@ const createFieldComparator =
       : 1;
   };
 
+/**
+ * The pagination feature is mocked because https://jsonplaceholder.typicode.com/users doesn't have a pagination feature
+ * so I just imagined a pagination feature
+ */
+
 export default function useUsers(): UseUsersReturn {
-  const [users, setUsers] = useState<User[] | undefined>(undefined);
-  const [error, setError] = useState<Error | undefined>(undefined);
+  const [fetchResult, setFetchResult] = useState<
+    { users?: User[]; page: number; error?: Error } | undefined
+  >(undefined);
+
   const [nameQuery, setNameQuery] = useState<string>("");
   const [sortField, setSortField] = useState<string>("");
 
-  const getUsers = useCallback(async () => {
-    const [result, fetchError] = await fetchUsers();
-    setUsers(result);
-    setError(fetchError);
+  const users = fetchResult?.users;
+  const error = fetchResult?.error;
+  const { page } = fetchResult || { page: 1 };
+  const pagination = { page, hasNextPage: page < 3, hasPrevPage: page > 1 };
+
+  const getUsers = useCallback(async (page: number = 1, limit?: number) => {
+    const [result, fetchError] = await fetchUsers(page, limit);
+    setFetchResult({
+      error: fetchError,
+      users: result,
+      page,
+    });
   }, []);
 
   const filteredUsers = useMemo(() => {
@@ -68,6 +84,7 @@ export default function useUsers(): UseUsersReturn {
     {
       error,
       sortField,
+      pagination,
       getUsers,
       filerUsersByName,
       sortUserByName,
