@@ -14,7 +14,8 @@
     padding: 12px;
     font-weight: bold;
 
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: #387478;
       cursor: pointer;
     }
@@ -26,7 +27,8 @@
 
   tbody tr {
     cursor: pointer;
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: #629584;
     }
   }

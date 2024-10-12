@@ -1,4 +1,4 @@
-import { PropsWithChildren, useState } from "react";
+import { KeyboardEvent, PropsWithChildren, useRef, useState } from "react";
 import { User } from "../../domain/User";
 import Modal from "../Modal";
 import style from "./style.module.scss";
@@ -15,9 +15,24 @@ type TableHeaderProps = PropsWithChildren<{
   onClick: (field: string) => void;
   active?: boolean;
 }>;
+
 function TableHeader({ field, onClick, active, children }: TableHeaderProps) {
+  const createSortKeydownHandler =
+    (field: string) => (event: KeyboardEvent) => {
+      const { key } = event as KeyboardEvent;
+      if (key === "Enter") {
+        onClick(field);
+      }
+    };
   return (
-    <th onClick={() => onClick(field)}>
+    <th
+      onClick={() => onClick(field)}
+      onKeyPress={createSortKeydownHandler(field)}
+      tabIndex={0}
+      role="button"
+      aria-label={`Sort by ${field}`}
+      aria-sort={active ? "ascending" : "none"}
+    >
       {children} {active ? "⬇️" : ""}
     </th>
   );
@@ -28,15 +43,30 @@ export default function UsersTable({
   onSortClick,
   currentSort,
 }: UsersTableProps) {
+  const ref = useRef<HTMLTableElement>(null);
   const [selectedUser, selectUser] = useState<User | undefined>();
 
   const createTHClickHandler = (field: string) => {
     onSortClick?.(currentSort === field ? "" : field);
   };
 
+  const createSelectKeydownHandler = (user: User) => (event: KeyboardEvent) => {
+    const { key } = event as KeyboardEvent;
+    if (key === "Enter") {
+      selectUser(user);
+    }
+  };
+
   return (
     <>
-      <table className={style.container}>
+      <table
+        className={style.container}
+        role="grid"
+        ref={ref}
+        aria-label="Users List"
+        aria-rowcount={users.length}
+        aria-colcount={6}
+      >
         <thead>
           <tr>
             <TableHeader
@@ -86,7 +116,13 @@ export default function UsersTable({
         <tbody>
           {users.length ? (
             users.map((user) => (
-              <tr key={user.id} onClick={() => selectUser(user)}>
+              <tr
+                key={user.id}
+                tabIndex={0}
+                onClick={() => selectUser(user)}
+                onKeyPress={createSelectKeydownHandler(user)}
+                aria-label={`Select ${user.name}`}
+              >
                 <td>{user.name}</td>
                 <td>{user.username}</td>
                 <td>{user.email}</td>
