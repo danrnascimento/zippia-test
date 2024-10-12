@@ -19,4 +19,8 @@
       font-weight: bold;
     }
   }
+
+  &[data-disabled="true"] {
+    opacity: 0.3;
+  }
 }

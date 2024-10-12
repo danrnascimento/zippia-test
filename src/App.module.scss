@@ -41,3 +41,21 @@
   gap: 32px;
   margin-bottom: 32px;
 }
+
+.initialMessage {
+  width: 100%;
+  text-align: center;
+  color: #e2f1e7;
+  font-size: 24px;
+}
+
+.errorAlert {
+  width: 100%;
+  padding: 24px;
+  font-size: 18px;
+  display: block;
+  text-align: center;
+  background-color: #9b3922;
+  color: #e2f1e7;
+  margin-bottom: 24px;
+}

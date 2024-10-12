@@ -38,7 +38,7 @@ export default function useUsers(): UseUsersReturn {
 
   const getUsers = useCallback(async () => {
     const [result, fetchError] = await fetchUsers();
-    setUsers(result || []);
+    setUsers(result);
     setError(fetchError);
   }, []);
 
