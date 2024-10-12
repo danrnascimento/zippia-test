@@ -4,7 +4,7 @@ This project uses pnpm, follow this to install: https://pnpm.io/pt/installation
 
 ### Run
 
-To run this project:
+To rugit adn this project:
 
 - install the dependencies
 
