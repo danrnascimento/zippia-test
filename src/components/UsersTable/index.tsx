@@ -2,6 +2,7 @@ import { PropsWithChildren, useState } from "react";
 import { User } from "../../domain/User";
 import Modal from "../Modal";
 import style from "./style.module.scss";
+import UserModalContent from "../UserModalContent";
 
 type UsersTableProps = {
   users: User[];
@@ -104,7 +105,7 @@ export default function UsersTable({
         </tbody>
       </table>
       <Modal open={!!selectedUser} onClose={() => selectUser(undefined)}>
-        {selectedUser?.name}
+        <UserModalContent user={selectedUser!} />
       </Modal>
     </>
   );

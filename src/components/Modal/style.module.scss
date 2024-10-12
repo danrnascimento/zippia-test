@@ -1,0 +1,22 @@
+.container {
+  border: none;
+  position: relative;
+
+  &::backdrop {
+    backdrop-filter: blur(5px);
+  }
+}
+
+.header {
+  width: 100%;
+  text-align: right;
+}
+
+.close {
+  background: none;
+  border: none;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  cursor: pointer;
+}
