@@ -17,7 +17,7 @@ export default function UserModalContent({ user }: UserModalContentProps) {
       </p>
       <p>
         <strong>Website:</strong>{" "}
-        <a target="_blank" href={user?.website}>
+        <a target="_blank" href={"//" + user?.website}>
           {user?.website}
         </a>
       </p>
