@@ -83,16 +83,24 @@ export default function UsersTable({
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
-            <tr key={user.id} onClick={() => selectUser(user)}>
-              <td>{user.name}</td>
-              <td>{user.username}</td>
-              <td>{user.email}</td>
-              <td>{user.phone}</td>
-              <td>{user.address.city}</td>
-              <td>{user.company.name}</td>
+          {users.length ? (
+            users.map((user) => (
+              <tr key={user.id} onClick={() => selectUser(user)}>
+                <td>{user.name}</td>
+                <td>{user.username}</td>
+                <td>{user.email}</td>
+                <td>{user.phone}</td>
+                <td>{user.address.city}</td>
+                <td>{user.company.name}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td className={style.emptyCell} colSpan={6}>
+                No elements found 😞
+              </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
       <Modal open={!!selectedUser} onClose={() => selectUser(undefined)}>
