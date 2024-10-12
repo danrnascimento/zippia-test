@@ -1,0 +1,33 @@
+.container {
+  width: 100%;
+  color: #e2f1e7;
+  border: 1px solid #000;
+
+  &,
+  th,
+  td {
+    border: 1px solid #e2f1e7;
+    border-collapse: collapse;
+  }
+
+  th {
+    padding: 12px;
+    font-weight: bold;
+
+    &:hover {
+      background-color: #387478;
+      cursor: pointer;
+    }
+  }
+
+  td {
+    padding: 8px;
+  }
+
+  tbody tr {
+    cursor: pointer;
+    &:hover {
+      background-color: #629584;
+    }
+  }
+}

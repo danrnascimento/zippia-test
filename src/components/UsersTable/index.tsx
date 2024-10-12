@@ -1,12 +1,26 @@
-import { useState } from "react";
+import { PropsWithChildren, useState } from "react";
 import { User } from "../../domain/User";
 import Modal from "../Modal";
+import style from "./style.module.scss";
 
 type UsersTableProps = {
   users: User[];
   onSortClick?: (field: string) => void;
   currentSort?: string;
 };
+
+type TableHeaderProps = PropsWithChildren<{
+  field: string;
+  onClick: (field: string) => void;
+  active?: boolean;
+}>;
+function TableHeader({ field, onClick, active, children }: TableHeaderProps) {
+  return (
+    <th onClick={() => onClick(field)}>
+      {children} {active ? "⬇️" : ""}
+    </th>
+  );
+}
 
 export default function UsersTable({
   users,
@@ -15,22 +29,57 @@ export default function UsersTable({
 }: UsersTableProps) {
   const [selectedUser, selectUser] = useState<User | undefined>();
 
-  const createTHClickHandler = (field: string) => () => {
-    console.log({ currentSort, field });
+  const createTHClickHandler = (field: string) => {
     onSortClick?.(currentSort === field ? "" : field);
   };
 
   return (
     <>
-      <table>
+      <table className={style.container}>
         <thead>
           <tr>
-            <th onClick={createTHClickHandler("name")}>Name</th>
-            <th onClick={createTHClickHandler("username")}>Username</th>
-            <th onClick={createTHClickHandler("email")}>Email</th>
-            <th onClick={createTHClickHandler("phone")}>Phone</th>
-            <th onClick={createTHClickHandler("city")}>City</th>
-            <th onClick={createTHClickHandler("company")}>Company</th>
+            <TableHeader
+              field="name"
+              onClick={createTHClickHandler}
+              active={currentSort === "name"}
+            >
+              Name
+            </TableHeader>
+            <TableHeader
+              field="username"
+              onClick={createTHClickHandler}
+              active={currentSort === "username"}
+            >
+              Username
+            </TableHeader>
+            <TableHeader
+              field="email"
+              onClick={createTHClickHandler}
+              active={currentSort === "email"}
+            >
+              Email
+            </TableHeader>
+            <TableHeader
+              field="phone"
+              onClick={createTHClickHandler}
+              active={currentSort === "phone"}
+            >
+              Phone
+            </TableHeader>
+            <TableHeader
+              field="city"
+              onClick={createTHClickHandler}
+              active={currentSort === "city"}
+            >
+              City
+            </TableHeader>
+            <TableHeader
+              field="company"
+              onClick={createTHClickHandler}
+              active={currentSort === "company"}
+            >
+              Company
+            </TableHeader>
           </tr>
         </thead>
         <tbody>
